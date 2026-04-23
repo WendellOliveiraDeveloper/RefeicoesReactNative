@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   headerSubtitle: {
-    fontSize: 12,
+    fontSize: 15,
     textAlign: "center",
     marginTop: 2,
   },
