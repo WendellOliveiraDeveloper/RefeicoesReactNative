@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     marginBottom: 6,
   },
   input: {
-    backgroundColor: '#f0efed',
+    backgroundColor: '#e4e4e4',
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 12,

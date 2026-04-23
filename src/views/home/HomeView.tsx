@@ -111,7 +111,10 @@ const HomeView = () => {
         </TouchableOpacity>
 
         <Text style={styles.text}>Refeições</Text>
-        <ButtonComponent title="Nova Refeição" />
+        <ButtonComponent
+          title="Nova Refeição"
+          onPress={() => navigation.navigate("Refeicao")}
+        />
 
         <FlatList<Dia>
           data={dados}
