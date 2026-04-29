@@ -36,7 +36,7 @@ const RefeicaoView = ({ navigation }: Props) => {
 
     await refeicoesStorage.add(payload);
 
-    navigation.goBack();
+    navigation.navigate("Resultado", { isDentroDieta });
   };
 
   const mudarTypeDieta = () => {

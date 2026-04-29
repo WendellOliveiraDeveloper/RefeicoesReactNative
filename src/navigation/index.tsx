@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeView from "@/views/home/HomeView";
 import DashboardView from "@/views/dashboard/DashboardView";
 import RefeicaoView from "@/views/refeicao/RefeicaoView";
+import ResultadoView from "@/views/resultado/ResultadoView";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,11 @@ export default function AppNavigator() {
         name="Refeicao"
         component={RefeicaoView}
         options={{ title: "Refeição" }}
-        
+      />
+      <Stack.Screen
+        name="Resultado"
+        component={ResultadoView}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
