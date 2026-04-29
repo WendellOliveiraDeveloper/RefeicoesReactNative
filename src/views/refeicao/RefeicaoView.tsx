@@ -7,6 +7,8 @@ import { refeicoesStorage } from "@/storage/refeicaoStorage";
 import { RootStackParamList } from "@/types/navigation";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import CheckboxComponent from "@/components/checkbox";
+import { Refeicao } from "@/interface/Refeicao";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Refeicao">;
@@ -23,6 +25,8 @@ const RefeicaoView = ({ route, navigation }: Props) => {
   const [isDentroDieta, setIsDentroDieta] = useState<boolean>(true);
 
   useEffect(() => {
+    if (!refeicao) return;
+
     setNome(refeicao.nome);
     setDescricao(refeicao.descricao);
     setDate(refeicao.data);
@@ -36,8 +40,8 @@ const RefeicaoView = ({ route, navigation }: Props) => {
       return;
     }
 
-    const payload = {
-      id: Date.now(),
+    const payload: Refeicao = {
+      id: refeicao?.id ?? Date.now(),
       nome,
       descricao,
       data: date,
@@ -45,9 +49,16 @@ const RefeicaoView = ({ route, navigation }: Props) => {
       isDentroDaDieta: isDentroDieta,
     };
 
-    await refeicoesStorage.add(payload);
-
-    navigation.navigate("Resultado", { isDentroDieta });
+    if (refeicao) {
+      await refeicoesStorage.update(payload);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Home" }],
+      });
+    } else {
+      await refeicoesStorage.add(payload);
+      navigation.navigate("Resultado", { isDentroDieta });
+    }
   };
 
   const mudarTypeDieta = () => {
@@ -68,6 +79,7 @@ const RefeicaoView = ({ route, navigation }: Props) => {
           onChangeText={setDescricao}
           value={descricao}
           multiline
+          required
         />
         <View
           style={{
@@ -83,6 +95,7 @@ const RefeicaoView = ({ route, navigation }: Props) => {
             onChangeText={setDate}
             editable={true}
             style={{ flex: 1 }}
+            required
           />
 
           <InputComponent
@@ -92,6 +105,7 @@ const RefeicaoView = ({ route, navigation }: Props) => {
             onChangeText={setHora}
             editable={true}
             style={{ flex: 1 }}
+            required
           />
         </View>
         <Text style={styles.label}>Está dentro da dieta?</Text>
@@ -121,8 +135,15 @@ const RefeicaoView = ({ route, navigation }: Props) => {
 
       <View>
         <ButtonComponent
-          title="Cadastrar Refeição"
+          title={refeicao ? "Editar Refeição" : "Cadastrar Refeição"}
           type="SUBMIT"
+          icon={
+            refeicao ? (
+              <FontAwesome name="edit" size={20} color={"#639399"} />
+            ) : (
+              <FontAwesome name="plus" size={20} color={"#639399"} />
+            )
+          }
           onPress={() => {
             submitForm();
           }}

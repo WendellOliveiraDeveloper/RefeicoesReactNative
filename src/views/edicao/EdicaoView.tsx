@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { styles } from "./styles";
 import { refeicoesStorage } from "@/storage/refeicaoStorage";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -64,6 +65,7 @@ const EdicaoView = ({ route, navigation }: Props) => {
         <ButtonComponent
           title="Editar refeição"
           type="BUTTON"
+          icon={<FontAwesome name="pencil" size={20} color={"#303030"} />}
           onPress={() =>
             navigation.navigate("Refeicao", { refeicao: refeicao })
           }
@@ -71,6 +73,7 @@ const EdicaoView = ({ route, navigation }: Props) => {
         <ButtonComponent
           title="Excluir refeição"
           type="DELETE"
+          icon={<FontAwesome name="trash" size={20} color={"#C62828"} />}
           onPress={async () => {
             await refeicoesStorage.remove(refeicao);
             navigation.reset({

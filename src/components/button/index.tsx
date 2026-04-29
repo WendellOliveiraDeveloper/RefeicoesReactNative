@@ -8,6 +8,7 @@ type Props = {
   title: string;
   type?: typeButton;
   style?: ViewStyle;
+  icon?: React.ReactNode;
 } & ButtonProps;
 
 const backgroundColorStyles = {
@@ -22,12 +23,19 @@ const textStyleMap = {
   DELETE: styles.deleteText,
 };
 
-const ButtonComponent = ({ title, type = "BUTTON", style, ...rest }: Props) => {
+const ButtonComponent = ({
+  title,
+  type = "BUTTON",
+  icon,
+  style,
+  ...rest
+}: Props) => {
   return (
     <TouchableOpacity
       style={[styles.container, backgroundColorStyles[type], style]}
       {...rest}
     >
+      {icon}
       <Text style={[textStyleMap[type]]}>{title}</Text>
     </TouchableOpacity>
   );
