@@ -7,6 +7,7 @@ import { Text, View } from "react-native";
 import { styles } from "./styles";
 import { refeicoesStorage } from "@/storage/refeicaoStorage";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import ModalComponent from "@/components/modal";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -15,6 +16,8 @@ type Props = {
 
 const EdicaoView = ({ route, navigation }: Props) => {
   const { refeicao } = route.params;
+
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const corHeader = refeicao.isDentroDaDieta ? "#E5F0DB" : "#F4E6E7";
   const corTexto = refeicao.isDentroDaDieta ? "#2E7D32" : "#C62828";
@@ -74,15 +77,23 @@ const EdicaoView = ({ route, navigation }: Props) => {
           title="Excluir refeição"
           type="DELETE"
           icon={<FontAwesome name="trash" size={20} color={"#C62828"} />}
-          onPress={async () => {
-            await refeicoesStorage.remove(refeicao);
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Home" }],
-            });
-          }}
+          onPress={async () => setIsVisible(true)}
         />
       </View>
+      <ModalComponent
+        isVisible={isVisible}
+        titulo="Deseja realmente excluir essa refeição?"
+        onClose={() => setIsVisible(false)}
+        onNao={() => setIsVisible(false)}
+        onSim={async () => {
+          await refeicoesStorage.remove(refeicao);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Home" }],
+          });
+        }}
+        isEscolha
+      ></ModalComponent>
     </View>
   );
 };
