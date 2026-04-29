@@ -36,7 +36,6 @@ const HomeView = () => {
   const isBoa = porcentagem >= 50;
 
   const corHeader = isBoa ? "#E5F0DB" : "#F4E6E7";
-  const corTexto = isBoa ? "#2E7D32" : "#C62828";
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -77,7 +76,7 @@ const HomeView = () => {
       <HeaderComponent />
       <View style={{ padding: 20 }}>
         <TouchableOpacity
-          style={styles.dashboard}
+          style={[styles.dashboard, { backgroundColor: corHeader }]}
           onPress={() => {
             if (totalRefeicoes > 0)
               navigation.navigate("Dashboard", { porcentagem });
@@ -101,7 +100,7 @@ const HomeView = () => {
         <Text style={styles.text}>Refeições</Text>
         <ButtonComponent
           title="Nova Refeição"
-          onPress={() => navigation.navigate("Refeicao")}
+          onPress={() => navigation.navigate("Refeicao", { refeicao: null })}
           style={{ marginTop: 10 }}
         />
 
@@ -109,12 +108,17 @@ const HomeView = () => {
           data={refeicoesPorData}
           keyExtractor={(item) => item.data}
           renderItem={({ item }) => (
-            <TouchableOpacity activeOpacity={0.5}>
-              <View>
-                <Text style={styles.data}>{item.data}</Text>
-
-                {item.refeicoes.map((ref) => (
-                  <View key={ref.id} style={styles.card}>
+            <View key={item.data}>
+              <Text style={styles.data}>{item.data}</Text>
+              {item.refeicoes.map((ref) => (
+                <TouchableOpacity
+                  key={ref.id.toString()}
+                  activeOpacity={0.5}
+                  onPress={() =>
+                    navigation.navigate("Edicao", { refeicao: ref })
+                  }
+                >
+                  <View style={styles.card}>
                     <Text style={styles.hora}>{ref.hora}</Text>
                     <Text style={styles.nome}>{ref.nome}</Text>
                     <View
@@ -128,9 +132,9 @@ const HomeView = () => {
                       ]}
                     />
                   </View>
-                ))}
-              </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+              ))}
+            </View>
           )}
         />
       </View>

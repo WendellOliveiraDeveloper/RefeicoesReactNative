@@ -43,7 +43,6 @@ export const styles = StyleSheet.create({
   },
 
   dashboard: {
-    backgroundColor: "#E5F0DB",
     padding: 20,
     borderRadius: 10,
     marginBottom: 15,
