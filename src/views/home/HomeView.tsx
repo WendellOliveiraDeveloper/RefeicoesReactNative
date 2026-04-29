@@ -79,7 +79,10 @@ const HomeView = () => {
           style={[styles.dashboard, { backgroundColor: corHeader }]}
           onPress={() => {
             if (totalRefeicoes > 0)
-              navigation.navigate("Dashboard", { porcentagem });
+              navigation.navigate("Dashboard", {
+                refeicoes: refeicoes,
+                porcentagem: porcentagem,
+              });
           }}
         >
           <View style={styles.dashboardContent}>

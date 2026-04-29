@@ -65,10 +65,22 @@ const removeAll = async (): Promise<void> => {
   await AsyncStorage.clear();
 };
 
+const countAllByIsDentroDieta = async (): Promise<Number> => {
+  const items = await getAll();
+  return items.filter((refeicao) => refeicao.isDentroDaDieta === true).length;
+};
+
+const countAllByIsForaDieta = async (): Promise<Number> => {
+  const items = await getAll();
+  return items.filter((refeicao) => refeicao.isDentroDaDieta === false).length;
+};
+
 export const refeicoesStorage = {
   getAll,
   add,
   update,
   remove,
   removeAll,
+  countAllByIsDentroDieta,
+  countAllByIsForaDieta,
 };

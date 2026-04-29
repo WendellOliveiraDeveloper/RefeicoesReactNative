@@ -5,7 +5,7 @@ import { styles } from "./styles";
 type BackgroundColor = "VERDE" | "VERMELHO" | "CINZA";
 
 type Props = {
-  title: string;
+  title: any;
   mensagem: string;
   fundo?: BackgroundColor;
   style?: ViewStyle;

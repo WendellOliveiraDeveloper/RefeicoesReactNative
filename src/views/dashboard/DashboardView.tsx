@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { styles } from "./styles";
 import CardComponent from "@/components/card";
 import ButtonComponent from "@/components/button";
+import { refeicoesStorage } from "@/storage/refeicaoStorage";
 
 const DashboardView = ({ route, navigation }: any) => {
-  const { porcentagem } = route.params;
+  const { refeicoes, porcentagem } = route.params;
+
+  const [countDentro, setCountDentro] = useState<Number>(0);
+  const [countFora, setCountFora] = useState<Number>(0);
 
   const isBoa = porcentagem >= 50;
 
   const corHeader = isBoa ? "#E5F0DB" : "#F4E6E7";
   const corTexto = isBoa ? "#2E7D32" : "#C62828";
-  const corFundoBotao = isBoa ? "#2E7D32" : "#C62828";
+
+  useEffect(() => {
+    const loadCounts = async () => {
+      const dentro = await refeicoesStorage.countAllByIsDentroDieta();
+      const fora = await refeicoesStorage.countAllByIsForaDieta();
+
+      setCountDentro(dentro as number);
+      setCountFora(fora as number);
+    };
+
+    loadCounts();
+  }, []);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -44,18 +59,20 @@ const DashboardView = ({ route, navigation }: any) => {
         </Text>
       </View>
 
-      <CardComponent title="22" mensagem="De partos dentro da dieta" />
-      <CardComponent title="22" mensagem="Refeições registradas" />
+      <CardComponent
+        title={refeicoes.length}
+        mensagem="Refeições registradas"
+      />
       <View style={{ flexDirection: "row", gap: 10 }}>
         <CardComponent
-          title="99"
+          title={countDentro}
           mensagem="refeições dentro da dieta"
           fundo="VERDE"
           style={{ flex: 1 }}
         />
 
         <CardComponent
-          title="10"
+          title={countFora}
           mensagem="refeições fora da dieta"
           fundo="VERMELHO"
           style={{ flex: 1 }}
