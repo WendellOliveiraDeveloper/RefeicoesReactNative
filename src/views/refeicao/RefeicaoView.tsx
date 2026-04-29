@@ -10,17 +10,28 @@ import CheckboxComponent from "@/components/checkbox";
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, "Refeicao">;
+  route: any;
 };
 
-const RefeicaoView = ({ navigation }: Props) => {
+const RefeicaoView = ({ route, navigation }: Props) => {
+  const { refeicao } = route.params;
+
   const [nome, setNome] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [hora, setHora] = useState<string>("");
   const [isDentroDieta, setIsDentroDieta] = useState<boolean>(true);
 
+  useEffect(() => {
+    setNome(refeicao.nome);
+    setDescricao(refeicao.descricao);
+    setDate(refeicao.data);
+    setHora(refeicao.hora);
+    setIsDentroDieta(refeicao.isDentroDaDieta);
+  }, [refeicao]);
+
   const submitForm = async () => {
-    if (!nome && !date && !hora) {
+    if (!nome || !date || !hora) {
       alert("Preencha todos os campos obrigatórios");
       return;
     }
