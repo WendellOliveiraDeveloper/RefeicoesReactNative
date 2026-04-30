@@ -72,9 +72,9 @@ const HomeView = () => {
   }, [refeicoes]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <HeaderComponent />
-      <View style={{ padding: 20 }}>
+      <View style={{ flex: 1, padding: 20 }}>
         <TouchableOpacity
           style={[styles.dashboard, { backgroundColor: corHeader }]}
           onPress={() => {
@@ -110,6 +110,7 @@ const HomeView = () => {
         <FlatList
           data={refeicoesPorData}
           keyExtractor={(item) => item.data}
+          style={{ flex: 1 }}
           renderItem={({ item }) => (
             <View key={item.data}>
               <Text style={styles.data}>{item.data}</Text>
